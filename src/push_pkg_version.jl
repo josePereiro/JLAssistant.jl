@@ -25,6 +25,7 @@ function push_pkg_version(pkgdir=pwd();
     projfile = Base.current_project(pkgdir)
     (isnothing(projfile) || isempty(dirname(projfile)) || !isfile(projfile)) && error("Project file not found")
     projfile = abspath(projfile)
+    pkgdir = dirname(projfile)
 
     # up version
     projdict = TOML.parsefile(projfile)
