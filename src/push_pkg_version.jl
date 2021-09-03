@@ -81,3 +81,42 @@ function push_pkg_version(pkgdir=pwd();
 
     return pkgdir
 end
+
+## ---------------------------------------------------
+function run_push_pkg_version(pkgdir; argv::Vector=ARGS)
+    
+    ## ---------------------------------------------------------
+    argset = ArgParse.ArgParseSettings()
+    ArgParse.@add_arg_table! argset begin
+        "--version", "-v"
+            help = "the new version to push"
+            arg_type = String
+            default = ""
+        "--registry", "-r"
+            help = "the register to push"
+            arg_type = String
+            default = ""
+        "--up-major", "-M"
+            help = "Will push a new version with the major incremented by 1"
+            action = :store_true
+        "--up-minor", "-m"
+            help = "Will push a new version with the minor incremented by 1"
+            action = :store_true
+        "--up-patch", "-p"
+            help = "Will push a new version with the patch incremented by 1"
+            action = :store_true
+    end
+
+    parsed_args = ArgParse.parse_args(argv, argset)
+    new_version = parsed_args["version"]
+    registry = parsed_args["registry"]
+    up_major = parsed_args["up-major"]
+    up_minor = parsed_args["up-minor"]
+    up_patch = parsed_args["up-patch"]
+
+    ## ---------------------------------------------------------
+    push_pkg_version(pkgdir;
+        new_version, up_major, up_minor, up_patch, registry
+    )
+
+end
