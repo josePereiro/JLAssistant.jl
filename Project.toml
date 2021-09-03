@@ -1,7 +1,7 @@
 name = "JLAssistant"
 uuid = "b110ed5b-1827-4ea4-a31c-50efd441af06"
 authors = ["josePereiro <jose.pereiro.lab@gmail.com> and contributors"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
