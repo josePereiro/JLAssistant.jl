@@ -17,19 +17,25 @@ function _info(msg; kwargs...)
     println()
 end
 
+function _warn(msg; kwargs...)
+    println()
+    @warn(msg, kwargs...)
+    println()
+end
+
 _Cmd(cmdsv::Vector{String}; kwargs...) = Cmd(Cmd(cmdsv); kwargs...)
 
 ## ---------------------------------------------------
 function push_pkg_version(pkgdir::AbstractString=pwd();
-        new_version="",
+        new_version::String="",
         up_major = false,
         up_minor = false,
         up_patch = false,
-        registry=""
+        registry::String=""
     )
 
     # find project
-    !isdir(pkgdir) && error("pkgdir '$pkgdir' not found")
+    !isdir(pkgdir) && error("Package directory '$pkgdir' not found")
     projfile = Base.current_project(pkgdir)
     (isnothing(projfile) || isempty(dirname(projfile)) || !isfile(projfile)) && error("Project file not found")
     projfile = abspath(projfile)
@@ -54,6 +60,8 @@ function push_pkg_version(pkgdir::AbstractString=pwd();
     else
         error("Not new version specify")
     end
+    (new_version == pkg_version) && error("Equal new and old versions")
+
 
     _info("Package current status"; pkg_name, pkg_uuid, pkg_version)
     
@@ -65,9 +73,10 @@ function push_pkg_version(pkgdir::AbstractString=pwd();
     
     # commit new project
     _info("Adding new Project.toml")
-    run(Cmd(Cmd(["git", "add", projfile]); dir=pkgdir))
-    _info("Commiting new Project.toml")
+    run(Cmd(Cmd(["git", "add", projfile]); dir=pkgdir); wait=true)
+    _info("Committing new Project.toml")
     run(_Cmd(["git", "commit", "-m", "up to $(new_version)"]; dir=pkgdir); wait=true)
+    
 
     # tag and push
     _info("Tagging")
@@ -76,11 +85,13 @@ function push_pkg_version(pkgdir::AbstractString=pwd();
     run(_Cmd(["git", "push", "origin", tag]; dir=pkgdir); wait=true)
 
     # update registry
-    if !isnothing(registry)
+    if registry != "0"
         _info("Update registry"; registry, pkg_name, new_version)
-        isempty(registry) ? 
+        registry == "1" ?
             LocalRegistry.register(pkgdir; push=true) :
             LocalRegistry.register(pkgdir; registry, push=true)
+    else
+        _warn("Ignoring registering"; pkg_name, new_version)
     end
 
     return pkgdir
@@ -97,8 +108,9 @@ function run_push_pkg_version(pkgdir; argv::Vector=ARGS)
             arg_type = String
             default = ""
         "--registry", "-r"
-            help = "the register to push"
+            help = "-r=Name specify the register to push. Use -r0 to ignore registering and r1 to use installed"
             arg_type = String
+            default = "0"
         "--up-major", "-M"
             help = "Will push a new version with the major incremented by 1"
             action = :store_true
