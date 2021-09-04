@@ -11,13 +11,21 @@ function _write_project(projfile, dat)
     end
 end
 
+function _info(msg; kwargs...)
+    println()
+    @info(msg, kwargs...)
+    println()
+end
+
+_Cmd(cmdsv::Vector{String}; kwargs...) = Cmd(Cmd(cmdsv); kwargs...)
+
 ## ---------------------------------------------------
-function push_pkg_version(pkgdir=pwd();
-        new_version::String="",
+function push_pkg_version(pkgdir::AbstractString=pwd();
+        new_version="",
         up_major = false,
         up_minor = false,
         up_patch = false,
-        registry::String=""
+        registry=""
     )
 
     # find project
@@ -47,38 +55,33 @@ function push_pkg_version(pkgdir=pwd();
         error("Not new version specify")
     end
 
-    @info("Package current status", pkg_name, pkg_uuid, pkg_version)
+    _info("Package current status"; pkg_name, pkg_uuid, pkg_version)
     
     # write back Project
     projdict["version"] = string(new_version)
     _write_project(projfile, projdict) 
     
-    println()
-    @info("Package new status", pkg_name, pkg_uuid, new_version)
+    _info("Package new status"; pkg_name, pkg_uuid, new_version)
     
     # commit new project
-    println()
-    @info("Commiting updated project")
-    println()
+    _info("Adding new Project.toml")
     run(Cmd(Cmd(["git", "add", projfile]); dir=pkgdir))
-    println()
-    run(Cmd(Cmd(["git", "commit", "-m", "up to $(new_version)"]); dir=pkgdir))
+    _info("Commiting new Project.toml")
+    run(_Cmd(["git", "commit", "-m", "up to $(new_version)"]; dir=pkgdir); wait=true)
 
     # tag and push
-    println()
-    @info("Tagging")
-    println()
+    _info("Tagging")
     tag = string("v", new_version)
-    run(Cmd(Cmd(["git", "tag", tag]); dir=pkgdir))
-    run(Cmd(Cmd(["git", "push", "origin", tag]); dir=pkgdir))
+    run(_Cmd(["git", "tag", tag]; dir=pkgdir); wait=true)
+    run(_Cmd(["git", "push", "origin", tag]; dir=pkgdir); wait=true)
 
     # update registry
-    println()
-    @info("Update registry", registry, pkg_name, new_version)
-    println()
-    isempty(registry) ? 
-        LocalRegistry.register(pkgdir; push=true) :
-        LocalRegistry.register(pkgdir; registry, push=true)
+    if !isnothing(registry)
+        _info("Update registry"; registry, pkg_name, new_version)
+        isempty(registry) ? 
+            LocalRegistry.register(pkgdir; push=true) :
+            LocalRegistry.register(pkgdir; registry, push=true)
+    end
 
     return pkgdir
 end
@@ -96,7 +99,6 @@ function run_push_pkg_version(pkgdir; argv::Vector=ARGS)
         "--registry", "-r"
             help = "the register to push"
             arg_type = String
-            default = ""
         "--up-major", "-M"
             help = "Will push a new version with the major incremented by 1"
             action = :store_true
