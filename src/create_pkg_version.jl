@@ -1,32 +1,5 @@
 ## ---------------------------------------------------
-function _key_by(key)
-    _toml_order = ["name", "uuid", "authors", "version", "deps", "compat", "extras", "targets"]
-    idx = findfirst(isequal(key), _toml_order)
-    isnothing(idx) ? 9223372036854775807 : idx
-end
-
-function _write_project(projfile, dat) 
-    open(projfile, "w") do io
-        TOML.print(io, dat; sorted=true, by=_key_by)
-    end
-end
-
-function _info(msg; kwargs...)
-    println()
-    @info(msg, kwargs...)
-    println()
-end
-
-function _warn(msg; kwargs...)
-    println()
-    @warn(msg, kwargs...)
-    println()
-end
-
-_Cmd(cmdsv::Vector{String}; kwargs...) = Cmd(Cmd(cmdsv); kwargs...)
-
-## ---------------------------------------------------
-function push_pkg_version(pkgdir::AbstractString=pwd();
+function create_pkg_version(pkgdir::AbstractString=pwd();
         new_version::String="",
         up_major = false,
         up_minor = false,
@@ -62,12 +35,11 @@ function push_pkg_version(pkgdir::AbstractString=pwd();
     end
     (new_version == pkg_version) && error("Equal new and old versions")
 
-
     _info("Package current status"; pkg_name, pkg_uuid, pkg_version)
     
     # write back Project
     projdict["version"] = string(new_version)
-    _write_project(projfile, projdict) 
+    _save_project(projfile, projdict) 
     
     _info("Package new status"; pkg_name, pkg_uuid, new_version)
     
@@ -87,9 +59,11 @@ function push_pkg_version(pkgdir::AbstractString=pwd();
     # update registry
     if registry != "0"
         _info("Update registry"; registry, pkg_name, new_version)
-        registry == "1" ?
-            LocalRegistry.register(pkgdir; push=true) :
-            LocalRegistry.register(pkgdir; registry, push=true)
+        commit_to_registry(pkgdir; 
+            registry = registry == "1" ? "" : registry, 
+            verbose = false, 
+            push = true
+        )
     else
         _warn("Ignoring registering"; pkg_name, new_version)
     end
@@ -98,11 +72,15 @@ function push_pkg_version(pkgdir::AbstractString=pwd();
 end
 
 ## ---------------------------------------------------
-function run_push_pkg_version(pkgdir; argv::Vector=ARGS)
+function run_create_pkg_version(argv::Vector=ARGS)
     
     ## ---------------------------------------------------------
     argset = ArgParse.ArgParseSettings()
     ArgParse.@add_arg_table! argset begin
+        "--pkgdir", "-d"
+            help = "the package dir"
+            arg_type = String
+            default = pwd()
         "--version", "-v"
             help = "the new version to push"
             arg_type = String
@@ -124,13 +102,14 @@ function run_push_pkg_version(pkgdir; argv::Vector=ARGS)
 
     parsed_args = ArgParse.parse_args(argv, argset)
     new_version = parsed_args["version"]
+    pkgdir = parsed_args["pkgdir"]
     registry = parsed_args["registry"]
     up_major = parsed_args["up-major"]
     up_minor = parsed_args["up-minor"]
     up_patch = parsed_args["up-patch"]
 
     ## ---------------------------------------------------------
-    push_pkg_version(pkgdir;
+    create_pkg_version(pkgdir;
         new_version, up_major, up_minor, up_patch, registry
     )
 
