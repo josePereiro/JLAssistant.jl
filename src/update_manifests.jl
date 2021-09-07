@@ -21,22 +21,29 @@ function run_update_manifests(argv=ARGS)
     packages = _split_arglist(parsed_args["pkgs"])
 
     _walk_pkgs(;rootdir) do path, proj
-        try;
-            Pkg.activate(path)
-            println()
-            if isempty(packages)
+        Pkg.activate(path)
+        println()
+        if isempty(packages)
+            try;
                 @info("Updating All")
                 Pkg.update(;mode=Pkg.PKGMODE_MANIFEST)
-            else
-                for name in packages
-                    isempty(name) && continue
+            catch err
+                (err isa InterruptException) && rethrow(err)
+                @error("Update Fails", err)
+            end
+        else
+            for name in packages
+                isempty(name) && continue
+                try;
                     @info("Updating", name)
                     spec = PackageSpec(;name)
                     Pkg.update(spec; level=Pkg.UPLEVEL_MAJOR, mode=Pkg.PKGMODE_MANIFEST)
+                catch err
+                    (err isa InterruptException) && rethrow(err)
+                    @error("Update Fails", err)
                 end
             end
-            precompile && Pkg.precompile()
-            catch err; @error("Update Fails", err)
         end
+            precompile && Pkg.precompile()
     end
 end
