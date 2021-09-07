@@ -7,7 +7,9 @@ function check_imports(pkgdir;
 
     # Project.toml deps
     projfiles = joinpath.(pkgdir, Base.project_names)
-    projfile = projfiles[findfirst(isfile, projfiles)]
+    projis = findfirst(isfile, projfiles)
+    isnothing(projis) && error("Project file not found")
+    projfile = projfiles[projis]
     proj_toml = JLAssistant._load_project(projfile)
     proj_deps = get(proj_toml, "deps", String[""]) |> keys |> collect
 
