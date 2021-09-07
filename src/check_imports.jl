@@ -45,14 +45,6 @@ function check_imports(pkgdir;
 end
 
 ## ---------------------------------------------------------
-function _extract_subs(arg_str)
-    arg_str = _repeat(arg_str) do
-        replace(arg_str, " " => "")
-    end
-    split(arg_str, ",")
-end
-
-## ---------------------------------------------------------
 function run_check_imports(argv=ARGS)
 
     ## ---------------------------------------------------------
@@ -70,7 +62,7 @@ function run_check_imports(argv=ARGS)
 
     parsed_args = ArgParse.parse_args(argv, argset)
     pkgdir = parsed_args["pkgdir"]
-    subs = _extract_subs(parsed_args["subfolders"])
+    subs = _split_arglist(parsed_args["subfolders"])
 
     check_imports(pkgdir; subs)
 end

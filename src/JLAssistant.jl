@@ -4,7 +4,7 @@ module JLAssistant
     import LocalRegistry
     import ArgParse
     import MyPkgTemplate
-    import Pkg
+    import Pkg: Pkg, PackageSpec
     import RegexTools: hex_escape
     
     using FilesTreeTools

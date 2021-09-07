@@ -23,3 +23,12 @@ function _repeat(f::Function, str)
     end
     str
 end
+
+## ---------------------------------------------------------
+function _split_arglist(arg_str)
+    isempty(arg_str) && return String[]
+    arg_str = _repeat(arg_str) do
+        replace(arg_str, " " => "")
+    end
+    split(arg_str, ",")
+end
