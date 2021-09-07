@@ -14,4 +14,12 @@ function _warn(msg; kwargs...)
 end
 
 _Cmd(cmdsv::Vector{String}; kwargs...) = Cmd(Cmd(cmdsv); kwargs...)
-    
+
+function _repeat(f::Function, str)
+    len = -1
+    while len != length(str)
+        len = length(str)
+        str = f()
+    end
+    str
+end

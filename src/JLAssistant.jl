@@ -5,6 +5,7 @@ module JLAssistant
     import ArgParse
     import MyPkgTemplate
     import Pkg
+    import RegexTools: hex_escape
     
     using FilesTreeTools
 
@@ -17,5 +18,7 @@ module JLAssistant
     include("_walk_pkgs.jl")
     include("import_pkgs.jl")
     include("update_manifests.jl")
+    include("find_imports.jl")
+    include("check_imports.jl")
 
 end
