@@ -48,8 +48,8 @@ function create_pkg_version(pkgdir::AbstractString=pwd();
     run(Cmd(Cmd(["git", "add", projfile]); dir=pkgdir); wait=true)
     _info("Committing new Project.toml")
     run(_Cmd(["git", "commit", "-m", "up to $(new_version)"]; dir=pkgdir); wait=true)
+    run(_Cmd(["git", "push"]; dir=pkgdir); wait=true)
     
-
     # tag and push
     _info("Tagging")
     tag = string("v", new_version)
