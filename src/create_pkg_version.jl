@@ -14,6 +14,10 @@ function create_pkg_version(pkgdir::AbstractString=pwd();
     projfile = abspath(projfile)
     pkgdir = dirname(projfile)
 
+    # check Manifest
+    unreg_pkgs = sort!(_find_unregistered_pkgs(pkgdir))
+    !isempty(unreg_pkgs) && error("Some pkgs are in an 'unregistered' mode, pkgs: $(join(unreg_pkgs, ", "))")
+
     # up version
     projdict = TOML.parsefile(projfile)
     pkg_version = VersionNumber(projdict["version"])

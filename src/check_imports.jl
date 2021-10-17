@@ -95,6 +95,17 @@ function check_imports(pkgdir;
     end
 
     ## ---------------------------------------------------
+    # unregistered pkgs
+    # check Manifest
+    unreg_pkgs = _find_unregistered_pkgs(pkgdir)
+    if !isempty(unreg_pkgs) 
+        println()
+        println("In unregistered mode: ")
+        printstyled(TAB, join(unreg_pkgs, ", "); color = :red, bold = true)
+        println()
+    end
+
+    ## ---------------------------------------------------
     # fix command
     SINGLE_QUOTE = "\'"
     QUOTE = "\""
@@ -135,7 +146,8 @@ function check_imports(pkgdir;
             SINGLE_QUOTE
         )
         println()
-        println("Fix command: ")
+        println("Fix command:")
+        println()
         println(fix_cmd)
     end
     
