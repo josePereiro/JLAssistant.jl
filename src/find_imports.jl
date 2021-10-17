@@ -16,7 +16,7 @@ function find_imports(pkgdir; subs = ["src", "scripts"])
         !isdir(srcdir) && continue
         imports = get!(imports_pool, dirname, Set{String}())
         
-        jl_files = filtertree(srcdir) do path
+        jl_files = filterdown(srcdir) do path
             endswith(path, ".jl")
         end
 
