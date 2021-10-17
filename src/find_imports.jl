@@ -26,7 +26,6 @@ function find_imports(pkgdir; subs = ["src", "scripts"])
             # @info("Doing", file)
 
             # predigest
-            _c = 
             _repeat(file_str) do
                 file_str = replace(file_str, r"(?:\"\"\")[^\"]*(?:\"\"\")"=>"")
                 file_str = replace(file_str, r"(?:\")[^\"]*(?:\")"=>"")
