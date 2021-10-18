@@ -3,7 +3,8 @@ module JLAssistant
     import TOML
     import LocalRegistry
     import ArgParse
-    import MyPkgTemplate
+    import PkgTemplates
+    import LibGit2
     import Pkg: Pkg, PackageSpec
     import RegexTools: hex_escape
     

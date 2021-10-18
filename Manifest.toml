@@ -129,12 +129,6 @@ git-tree-sha1 = "36995ef0d532fe08119d70b2365b7b03d4e00f48"
 uuid = "ffc61752-8dc7-55ee-8c37-f3e9cdd09e70"
 version = "1.0.10"
 
-[[MyPkgTemplate]]
-deps = ["LibGit2", "Pkg", "PkgTemplates"]
-git-tree-sha1 = "bb5f825c32bbdf379ab2dae3163582b67cfaaa22"
-uuid = "c1c1e88c-cb6c-463d-9723-3dce2b3356d0"
-version = "0.3.0"
-
 [[NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
 
