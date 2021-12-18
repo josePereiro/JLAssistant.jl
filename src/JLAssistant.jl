@@ -6,7 +6,6 @@ module JLAssistant
     import PkgTemplates
     import LibGit2
     import Pkg: Pkg, PackageSpec
-    import Pkg: @pkg_str
     import RegexTools: hex_escape
     
     using FilesTreeTools

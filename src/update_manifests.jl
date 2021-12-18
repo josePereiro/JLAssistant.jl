@@ -26,7 +26,7 @@ function run_update_manifests(argv=ARGS)
         if isempty(packages)
             try;
                 @info("Updating All")
-                pkg"up -m"
+                Pkg.update()
             catch err
                 (err isa InterruptException) && rethrow(err)
                 @error("Update Fails", err)
