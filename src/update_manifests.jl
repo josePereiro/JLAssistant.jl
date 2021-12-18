@@ -26,7 +26,7 @@ function run_update_manifests(argv=ARGS)
         if isempty(packages)
             try;
                 @info("Updating All")
-                Pkg.update(;mode=Pkg.PKGMODE_MANIFEST)
+                Pkg.update()
             catch err
                 (err isa InterruptException) && rethrow(err)
                 @error("Update Fails", err)
@@ -44,6 +44,7 @@ function run_update_manifests(argv=ARGS)
                 end
             end
         end
-            precompile && Pkg.precompile()
+        
+        precompile && Pkg.precompile()
     end
 end
