@@ -32,3 +32,19 @@ function _split_arglist(arg_str)
     end
     split(arg_str, ",")
 end
+
+## ---------------------------------------------------------
+function _max_len(pad_len::Int, col::Vector{String})
+    isempty(col) && return pad_len
+    return max(pad_len, maximum(length.(proj_deps)))
+end
+
+_max_len(pad_len::Int, col::String) = _max_len(pad_len, [col])
+
+function _max_len(col, cols...) 
+    pad = _max_len(0, col)
+    for coli in cols
+        pad = _max_len(pad, coli)
+    end
+    return pad
+end

@@ -3,7 +3,7 @@ function check_imports(pkgdir;
     )
     
     ## ---------------------------------------------------
-    file_imports = JLAssistant.find_imports(pkgdir; subs)
+    file_imports = find_imports(pkgdir; subs)
     proj_imports = vcat(collect.(values(file_imports))...)
 
     ## ---------------------------------------------------
@@ -12,7 +12,7 @@ function check_imports(pkgdir;
     projis = findfirst(isfile, projfiles)
     isnothing(projis) && error("Project file not found")
     projfile = projfiles[projis]
-    proj_toml = JLAssistant._load_project(projfile)
+    proj_toml = _load_project(projfile)
     proj_deps = get(proj_toml, "deps", String[""]) |> keys |> collect
 
     ## ---------------------------------------------------
@@ -24,10 +24,8 @@ function check_imports(pkgdir;
     ## ---------------------------------------------------
     println("\nChecking Imports")
     println("proj: ", pkgdir, "\n")
-    pad_len = maximum(length.(proj_imports))
-    pad_len = max(pad_len, maximum(length.(proj_deps)))
-    pad_len = max(pad_len, length("in Project.toml"))
-    pad_len += 3 #
+    pad_len = _max_len(proj_imports, proj_deps, "in Project.toml")
+    pad_len += 3
     TAB = "  "
     
     ## ---------------------------------------------------
