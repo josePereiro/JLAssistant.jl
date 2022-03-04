@@ -1,5 +1,5 @@
 ## ---------------------------------------------------
-function create_pkg_version(pkgdir::AbstractString=pwd();
+function _create_pkg_version(pkgdir::AbstractString=pwd();
         new_version::String="",
         up_major = false,
         up_minor = false,
