@@ -12,16 +12,6 @@ module JLAssistant
     
     using FilesTreeTools
 
-    include("cli/check_imports.jl")
-    include("cli/commit_to_registry.jl")
-    include("cli/copy_include_block.jl")
-    include("cli/create_pkg_version.jl")
-    include("cli/generate_pkg.jl")
-    include("cli/import_pkgs.jl")
-    include("cli/precompile_projects.jl")
-    include("cli/update_manifests.jl")
-    include("cli/upgrade_manifests.jl")
-
     include("core/_check_imports.jl")
     include("core/_commit_to_registry.jl")
     include("core/_copy_import_bash.jl")
@@ -32,5 +22,15 @@ module JLAssistant
     include("core/_project_toml_utils.jl")
     include("core/_walk_pkgs.jl")
     include("core/utils.jl")
+
+    include("cli/check_imports.jl")
+    include("cli/commit_to_registry.jl")
+    include("cli/copy_include_block.jl")
+    include("cli/create_pkg_version.jl")
+    include("cli/generate_pkg.jl")
+    include("cli/import_pkgs.jl")
+    include("cli/precompile_projects.jl")
+    include("cli/update_manifests.jl")
+    include("cli/upgrade_manifests.jl")
 
 end
