@@ -1,7 +1,7 @@
 name = "JLAssistant"
 uuid = "b110ed5b-1827-4ea4-a31c-50efd441af06"
 authors = ["josePereiro <jose.pereiro.lab@gmail.com> and contributors"]
-version = "0.2.28"
+version = "0.2.29"
 
 [deps]
 LocalRegistry = "89398ba2-070a-4b16-a995-9893c55d93cf"
