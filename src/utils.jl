@@ -36,7 +36,7 @@ end
 ## ---------------------------------------------------------
 function _max_len(pad_len::Int, col::Vector{String})
     isempty(col) && return pad_len
-    return max(pad_len, maximum(length.(proj_deps)))
+    return max(pad_len, maximum(length.(col)))
 end
 
 _max_len(pad_len::Int, col::String) = _max_len(pad_len, [col])
