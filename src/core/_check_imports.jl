@@ -1,9 +1,9 @@
-function check_imports(pkgdir;
+function _check_imports(pkgdir;
         subs=["src", "scripts"]
     )
     
     ## ---------------------------------------------------
-    file_imports = find_imports(pkgdir; subs)
+    file_imports = _find_imports(pkgdir; subs)
     proj_imports = vcat(collect.(values(file_imports))...)
 
     ## ---------------------------------------------------
@@ -151,25 +151,3 @@ function check_imports(pkgdir;
     
 end
 
-## ---------------------------------------------------------
-function run_check_imports(argv=ARGS)
-
-    ## ---------------------------------------------------------
-    argset = ArgParse.ArgParseSettings()
-    ArgParse.@add_arg_table! argset begin
-        "pkgdir"
-            help = "The package dir"
-            arg_type = String
-            default = pwd()
-        "--subfolders", "-s"
-            help = "The names (comma separated) of the subfolders to search"
-            arg_type = String
-            default = "src, scripts"
-    end
-
-    parsed_args = ArgParse.parse_args(argv, argset)
-    pkgdir = parsed_args["pkgdir"]
-    subs = _split_arglist(parsed_args["subfolders"])
-
-    check_imports(pkgdir; subs)
-end

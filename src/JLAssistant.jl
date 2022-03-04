@@ -7,20 +7,30 @@ module JLAssistant
     import LibGit2
     import Pkg: Pkg, PackageSpec
     import RegexTools: hex_escape
+    import InteractiveUtils
+    import InteractiveUtils: clipboard
     
     using FilesTreeTools
 
-    include("_find_unregistered_pkgs.jl")
-    include("_project_toml_utils.jl")
-    include("_walk_pkgs.jl")
-    include("create_pkg_version.jl")
-    include("commit_to_registry.jl")
-    include("precompile_projects.jl")
-    include("generate_pkg.jl")
-    include("utils.jl")
-    include("import_pkgs.jl")
-    include("update_manifests.jl")
-    include("find_imports.jl")
-    include("check_imports.jl")
+    include("cli/check_imports.jl")
+    include("cli/commit_to_registry.jl")
+    include("cli/copy_include_block.jl")
+    include("cli/create_pkg_version.jl")
+    include("cli/generate_pkg.jl")
+    include("cli/import_pkgs.jl")
+    include("cli/precompile_projects.jl")
+    include("cli/update_manifests.jl")
+    include("cli/upgrade_manifests.jl")
+
+    include("core/_check_imports.jl")
+    include("core/_commit_to_registry.jl")
+    include("core/_copy_import_bash.jl")
+    include("core/_create_pkg_version.jl")
+    include("core/_find_imports.jl")
+    include("core/_find_unregistered_pkgs.jl")
+    include("core/_generate_pkg.jl")
+    include("core/_project_toml_utils.jl")
+    include("core/_walk_pkgs.jl")
+    include("core/utils.jl")
 
 end

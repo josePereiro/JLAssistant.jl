@@ -1,5 +1,5 @@
 ## --------------------------------------------------------
-function find_imports(pkgdir; subs = ["src", "scripts"])
+function _find_imports(pkgdir; subs = ["src", "scripts"])
 
     SPACE = hex_escape(" ")
     TAB = hex_escape("\t")

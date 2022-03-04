@@ -48,3 +48,11 @@ function _max_len(col, cols...)
     end
     return pad
 end
+
+## ---------------------------------------------------------
+# filesys
+function _cp(src_, dst_; kwargs...)
+    mkpath(dirname(src_))
+    mkpath(dirname(dst_))
+    cp(src_, dst_; kwargs...)
+end

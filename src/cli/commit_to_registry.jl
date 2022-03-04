@@ -1,20 +1,5 @@
-function commit_to_registry(pkg::String; 
-        registry::String = "", verbose = false, push = true
-    )
-
-    # parse args
-    pkg = isempty(pkg) ? basename(pwd()) : pkg
-
-    # add to registry
-    verbose && _info("Update registry"; pkg, registry, push)
-    isempty(registry) ?
-        LocalRegistry.register(pkg; push) :
-        LocalRegistry.register(pkg; registry, push)
-
-    return pkg
-end
-
-## ---------------------------------------------------
+## ---------------------------------------------------------
+# CLI
 function run_commit_to_registry(argv::Vector=ARGS)
     
     ## ---------------------------------------------------------
@@ -23,7 +8,7 @@ function run_commit_to_registry(argv::Vector=ARGS)
         "--pkgdir", "-d"
             help = "the package dir"
             arg_type = String
-            default = pwd()
+            default = dirname(Base.current_project())
         "--registry", "-r"
             help = "-r=Name specify the register to record to"
             arg_type = String
@@ -39,7 +24,7 @@ function run_commit_to_registry(argv::Vector=ARGS)
     push = !parsed_args["no-push"]
     
     ## ---------------------------------------------------------
-    commit_to_registry(pkgdir;
+    _commit_to_registry(pkgdir;
         registry, verbose = true, push
     )
 

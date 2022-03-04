@@ -4,14 +4,15 @@ authors = ["josePereiro <jose.pereiro.lab@gmail.com> and contributors"]
 version = "0.2.26"
 
 [deps]
+ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
+FilesTreeTools = "638332cd-b357-4bf5-bfa2-3531168477f5"
+InteractiveUtils = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
+LibGit2 = "76f85450-5226-5b5a-8eaa-529ad045b433"
 LocalRegistry = "89398ba2-070a-4b16-a995-9893c55d93cf"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
-LibGit2 = "76f85450-5226-5b5a-8eaa-529ad045b433"
 PkgTemplates = "14b8a8f1-9102-5b29-a752-f990bacb7fe1"
 RegexTools = "3cb95532-3c78-4535-bbc5-067405b402f6"
-FilesTreeTools = "638332cd-b357-4bf5-bfa2-3531168477f5"
 TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
-ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
 
 [compat]
 julia = "1.5"
