@@ -22,7 +22,7 @@ function _generate(pkgname;
     )
 
     dir = Pkg.devdir()
-    pkgdir = joinpath(dir, replace(pkgname, ".jl" => ""))
+    _pkgdir = joinpath(dir, replace(pkgname, ".jl" => ""))
 
     plugins = _default_plugins()
     t = PkgTemplates.Template(;user, julia, plugins, dir)
@@ -31,9 +31,9 @@ function _generate(pkgname;
     # copy tagged-release.yml
     _cp(
         joinpath(pkgdir(JLAssistant), ".github/workflows/tagged-release.yml"),
-        joinpath(pkgdir, ".github/workflows/tagged-release.yml");
+        joinpath(_pkgdir, ".github/workflows/tagged-release.yml");
         force = true
     )
     
-    return pkgdir
+    return _pkgdir
 end
