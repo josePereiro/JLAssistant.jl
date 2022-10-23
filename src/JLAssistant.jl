@@ -13,7 +13,6 @@ module JLAssistant
     using FilesTreeTools
 
     #! include .
-    include("bla.jl")
 
     #! include core
     include("core/_check_imports.jl")
