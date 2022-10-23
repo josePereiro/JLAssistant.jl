@@ -12,7 +12,10 @@ module JLAssistant
     
     using FilesTreeTools
 
-    #! include core 
+    #! include .
+    include("bla.jl")
+
+    #! include core
     include("core/_check_imports.jl")
     include("core/_commit_to_registry.jl")
     include("core/_create_pkg_version.jl")

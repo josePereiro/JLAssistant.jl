@@ -16,11 +16,27 @@ function _redo_include_blocks(pkgdir::String)
         # parse tag
         rm = match(_INCLUDE_TAG_REGEX, line)
         if !isnothing(rm)
-            subpath = joinpath(src_dir, rm[:path])
             push!(new_lines, line)
             indet = " "^length(findfirst(_INDET_REGEX, line))
             
-            for (root, _, files) in walkdir(subpath)
+            subpath = rm[:path]
+            path = joinpath(src_dir, subpath)
+
+            # Base
+            if subpath == "."
+                for fn in readdir(src_dir; join = true)
+                    endswith(fn, ".jl") || continue
+                    fn == src_file && continue
+                    
+                    rfn = relpath(fn, src_dir)
+                    push!(new_lines, string(indet, "include(\"", rfn, "\")"))
+                end
+                continue
+            end
+            
+            # Supdirs
+            path = joinpath(src_dir, subpath)
+            for (root, _, files) in walkdir(path)
                 for file in files
                     fn = joinpath(root, file) # path to files
                     endswith(fn, ".jl") || continue
@@ -28,8 +44,8 @@ function _redo_include_blocks(pkgdir::String)
                     push!(new_lines, string(indet, "include(\"", rfn, "\")"))
                 end
             end
-
             continue
+            
         end
 
         # parse expr
