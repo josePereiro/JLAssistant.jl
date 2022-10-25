@@ -19,7 +19,7 @@ function _redo_include_blocks(pkgdir::String)
             push!(new_lines, line)
             indet = " "^length(findfirst(_INDET_REGEX, line))
             
-            subpath = rm[:path]
+            subpath = strip(rm[:path])
             path = joinpath(src_dir, subpath)
 
             # Base
