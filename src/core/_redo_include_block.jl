@@ -1,4 +1,4 @@
-const _INCLUDE_TAG_REGEX = r"(?i)\A\h*\#\!\h+include\h*(?<path>(?:\N)*)\h*\Z"
+const _INCLUDE_TAG_REGEX = r"(?i)\A\h*\#\!\h+include\h+(?<path>(?:\N)*)\h*\Z"
 const _INCLUDE_EXPR_REGEX = r"(?i)\A\h*include\h*\(\h*\"(?<path>(?:\N)*)\"\h*\)\h*\Z"
 const _INDET_REGEX = r"\A(?<indet>\h*)"
 
