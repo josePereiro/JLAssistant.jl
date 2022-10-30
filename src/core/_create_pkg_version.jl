@@ -4,7 +4,8 @@ function _create_pkg_version(pkgdir::AbstractString=pwd();
         up_major = false,
         up_minor = false,
         up_patch = false,
-        registry::String=""
+        registry::String="",
+        do_release = false
     )
 
     # find project
@@ -72,9 +73,11 @@ function _create_pkg_version(pkgdir::AbstractString=pwd();
         _warn("Ignoring registering"; pkg_name, new_version)
     end
     
-    # create release
-    _info("Creating release"; registry, pkg_name, new_version)
-    run(_Cmd(["gh", "release", "create", tag, "--notes", #=release name=# tag]; dir=pkgdir); wait=true)
+    if do_release
+        # create release
+        _info("Creating release"; registry, pkg_name, new_version)
+        run(_Cmd(["gh", "release", "create", tag, "--notes", #=release name=# tag]; dir=pkgdir); wait=true)
+    end
     
     println()
     return pkgdir
