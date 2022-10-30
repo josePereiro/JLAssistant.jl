@@ -5,7 +5,8 @@ function _create_pkg_version(pkgdir::AbstractString=pwd();
         up_minor = false,
         up_patch = false,
         registry::String="",
-        do_release = false
+        do_release = false, 
+        check_dev = true
     )
 
     # find project
@@ -16,8 +17,10 @@ function _create_pkg_version(pkgdir::AbstractString=pwd();
     pkgdir = dirname(projfile)
 
     # check Manifest
-    unreg_pkgs = sort!(_find_unregistered_pkgs(pkgdir))
-    !isempty(unreg_pkgs) && error("Some pkgs are in an 'unregistered' mode, pkgs: $(join(unreg_pkgs, ", "))")
+    if check_dev
+        unreg_pkgs = sort!(_find_unregistered_pkgs(pkgdir))
+        !isempty(unreg_pkgs) && error("Some pkgs are in an 'unregistered' mode, pkgs: $(join(unreg_pkgs, ", "))")
+    end
 
     # up version
     projdict = TOML.parsefile(projfile)
