@@ -17,7 +17,7 @@ function run_create_pkg_version(argv::Vector=ARGS)
             help = "-r=Name specify the register to push. Use -r0 to ignore registering and r1 to use installed"
             arg_type = String
             default = "0"
-        "--do-release", "-s"
+        "--do-release", "-R"
             help = "Use gh cli to create a release"
             action = :store_true
         "--check-dev", "-D"
