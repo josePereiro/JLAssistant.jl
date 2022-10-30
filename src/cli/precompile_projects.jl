@@ -10,6 +10,9 @@ function run_precompile_projects(argv=ARGS)
 
     parsed_args = ArgParse.parse_args(argv, argset)
     rootdir = parsed_args["rootdir"]
+    
+    ## ---------------------------------------------------------
+    _print_options(;rootdir)
 
     _walk_pkgs(;rootdir) do path, proj
         try;

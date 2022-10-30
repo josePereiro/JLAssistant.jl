@@ -14,5 +14,8 @@ function run_redo_include_block(argv=ARGS)
     parsed_args = ArgParse.parse_args(argv, argset)
     pkgdir = parsed_args["pkgdir"]
 
+    ## ---------------------------------------------------------
+    _print_options(;pkgdir)
+
     _redo_include_blocks(pkgdir)
 end 

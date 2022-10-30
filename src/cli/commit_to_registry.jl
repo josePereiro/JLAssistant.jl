@@ -22,6 +22,9 @@ function run_commit_to_registry(argv::Vector=ARGS)
     pkgdir = parsed_args["pkgdir"]
     registry = parsed_args["registry"]
     push = !parsed_args["no-push"]
+
+    ## ---------------------------------------------------------
+    _print_options(;pkgdir, registry, push)
     
     ## ---------------------------------------------------------
     _commit_to_registry(pkgdir;

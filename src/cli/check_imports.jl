@@ -19,5 +19,9 @@ function run_check_imports(argv=ARGS)
     pkgdir = parsed_args["pkgdir"]
     subs = _split_arglist(parsed_args["subfolders"])
 
+    ## ---------------------------------------------------------
+    _print_options(;pkgdir, subs) 
+    
+    ## ---------------------------------------------------------
     _check_imports(pkgdir; subs)
 end

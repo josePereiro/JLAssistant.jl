@@ -56,3 +56,13 @@ function _cp(src_, dst_; kwargs...)
     mkpath(dirname(dst_))
     cp(src_, dst_; kwargs...)
 end
+
+## ---------------------------------------------------------
+function _print_options(;kwargs...)
+    println("."^60)
+    println("OPTIONS")
+    for (k, v) in kwargs
+        println(k, ": ", v)
+    end
+    println("\n")
+end

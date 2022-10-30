@@ -22,6 +22,9 @@ function run_update_manifests(argv=ARGS)
     precompile = parsed_args["precompile"]
     packages = _split_arglist(parsed_args["pkgs"])
 
+    ## ---------------------------------------------------------
+    _print_options(;rootdir, precompile, packages)
+
     _walk_pkgs(;rootdir) do path, proj
         Pkg.activate(path)
         println()

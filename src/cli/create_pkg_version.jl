@@ -19,7 +19,7 @@ function run_create_pkg_version(argv::Vector=ARGS)
             default = "0"
         "--do-release", "-s"
             help = "Use gh cli to create a release"
-            action = :store_false
+            action = :store_true
         "--check-dev", "-D"
             help = "Check if there is any dep in dev mode"
             action = :store_true
@@ -43,6 +43,12 @@ function run_create_pkg_version(argv::Vector=ARGS)
     up_major = parsed_args["up-major"]
     up_minor = parsed_args["up-minor"]
     up_patch = parsed_args["up-patch"]
+
+    ## ---------------------------------------------------------
+    _print_options(;
+        new_version, pkgdir, registry, do_release, 
+        check_dev, up_major, up_minor, up_patch
+    )
 
     ## ---------------------------------------------------------
     _create_pkg_version(pkgdir;

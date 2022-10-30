@@ -13,6 +13,9 @@ function run_upgrade_manifests(argv=ARGS)
     parsed_args = ArgParse.parse_args(argv, argset)
     rootdir = parsed_args["rootdir"]
 
+    ## ---------------------------------------------------------
+    _print_options(;rootdir)
+
     _walk_pkgs(;rootdir) do path, proj
         Pkg.activate(path)
         println()
