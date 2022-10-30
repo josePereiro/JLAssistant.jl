@@ -49,7 +49,7 @@ function _create_pkg_version(pkgdir::AbstractString=pwd();
 
     # commit new project
     _info("Adding new Project.toml")
-    run(Cmd(Cmd(["git", "add", projfile]); dir=pkgdir); wait=true)
+    run(_Cmd(["git", "add", projfile]; dir=pkgdir); wait=true)
     _info("Committing new Project.toml")
     run(_Cmd(["git", "commit", "-m", "up to $(new_version)"]; dir=pkgdir); wait=true)
     run(_Cmd(["git", "push"]; dir=pkgdir); wait=true)
@@ -71,6 +71,11 @@ function _create_pkg_version(pkgdir::AbstractString=pwd();
     else
         _warn("Ignoring registering"; pkg_name, new_version)
     end
-
+    
+    # create release
+    _info("Creating release"; registry, pkg_name, new_version)
+    run(_Cmd(["gh", "release", "create", tag, "--notes", #=release name=# tag]; dir=pkgdir); wait=true)
+    
+    println()
     return pkgdir
 end
