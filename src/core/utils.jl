@@ -59,10 +59,8 @@ end
 
 ## ---------------------------------------------------------
 function _print_options(;kwargs...)
-    println("."^60)
-    println("OPTIONS")
-    for (k, v) in kwargs
-        println(k, ": ", v)
-    end
-    println("\n")
+    println()
+    @info("OPTIONS", kwargs...)
+    println()
+    println("."^30)
 end
