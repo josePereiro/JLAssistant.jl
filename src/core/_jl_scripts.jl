@@ -9,11 +9,14 @@ function _resolve_jl_script(name::String)
             get(config, _LOCAL_JLSCRIPTS_ENV_PATH_KEY, String[]), # local
             get(config, _JLSCRIPTS_ENV_PATH_KEY, String[])        # global
         ]
-        for path in jlpaths
-            name0 = basename(path)
-            name0 == name && return path
-            name0 = replace(name0, ".jl" => "")
-            name0 == name && return path
+        for path0 in jlpaths
+            paths = isdir(path0) ? readdir(path0; join = true) : [path0]
+            for fn in filter(isfile, paths)
+                name0 = basename(fn)
+                name0 == name && return fn
+                name0 = replace(name0, ".jl" => "")
+                name0 == name && return fn
+            end
         end
     end
     
