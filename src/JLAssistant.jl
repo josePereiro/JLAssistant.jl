@@ -5,6 +5,7 @@ module JLAssistant
     import ArgParse
     import PkgTemplates
     import LibGit2
+    import Pkg
     import Pkg: Pkg, PackageSpec
     import RegexTools: hex_escape
     import InteractiveUtils
@@ -26,6 +27,7 @@ module JLAssistant
     include("core/_project_toml_utils.jl")
     include("core/_redo_include_block.jl")
     include("core/_walk_pkgs.jl")
+    include("core/_workspaces.jl")
     include("core/utils.jl")
 
     #! include cli
@@ -39,5 +41,6 @@ module JLAssistant
     include("cli/redo_include_block.jl")
     include("cli/update_manifests.jl")
     include("cli/upgrade_manifests.jl")
+    include("cli/workspaces.jl")
 
 end
