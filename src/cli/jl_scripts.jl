@@ -10,14 +10,15 @@ function run_jl_script(argv=ARGS)
             arg_type = String
     end
 
-    argv = length(argv) > 1 ? argv[1:1] : argv
-    parsed_args = ArgParse.parse_args(argv, argset)
+    argv_ = length(argv) > 1 ? argv[1:1] : argv
+    parsed_args = ArgParse.parse_args(argv_, argset)
     name = parsed_args["name"]
-
+    
     ## ---------------------------------------------------------
     _print_options(;name) 
     
     ## ---------------------------------------------------------
-    _run_jl_script(name)
+    argv_ = length(argv) > 1 ? argv[2:end] : []
+    _run_jl_script(name, argv_)
 
 end

@@ -23,7 +23,7 @@ function _resolve_jl_script(name::String)
     return ""
 end
 
-function _run_jl_script(name::String)
+function _run_jl_script(name::String, argsv = String[])
     
     path = _resolve_jl_script(name)
     if isempty(path) 
@@ -33,6 +33,10 @@ function _run_jl_script(name::String)
 
     _info("RUNNING"; path)
 
+    
+    @eval Main begin
+        PARSED_ARGS, PARSED_OPTS = JLAssistant.parse_args($(argsv))
+    end
     Base.include(Main, path)
 
     println()

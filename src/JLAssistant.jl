@@ -24,6 +24,7 @@ module JLAssistant
     include("core/_find_unregistered_pkgs.jl")
     include("core/_generate_pkg.jl")
     include("core/_jl_scripts.jl")
+    include("core/_parse_args.jl")
     include("core/_project_toml_utils.jl")
     include("core/_redo_include_block.jl")
     include("core/_walk_pkgs.jl")
