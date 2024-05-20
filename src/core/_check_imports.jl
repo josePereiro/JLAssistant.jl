@@ -13,7 +13,8 @@ function _check_imports(pkgdir;
     isnothing(projis) && error("Project file not found")
     projfile = projfiles[projis]
     proj_toml = _load_project(projfile)
-    proj_deps = get(proj_toml, "deps", String[""]) |> keys |> collect
+    proj_deps = get(proj_toml, "deps", nothing)
+    proj_deps = isnothing(proj_deps) ? String[] : collect(keys(proj_deps))
 
     ## ---------------------------------------------------
     IGNORED = ["Base", "Core", get(proj_toml, "name", "")]

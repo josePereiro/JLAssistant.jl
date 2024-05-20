@@ -34,17 +34,17 @@ function _split_arglist(arg_str)
 end
 
 ## ---------------------------------------------------------
-function _max_len(pad_len::Int, col::Vector{String})
+function __max_len(pad_len::Int, col::Vector{String})
     isempty(col) && return pad_len
     return max(pad_len, maximum(length.(col)))
 end
 
-_max_len(pad_len::Int, col::String) = _max_len(pad_len, [col])
+__max_len(pad_len::Int, col::String) = __max_len(pad_len, [col])
 
 function _max_len(col, cols...) 
-    pad = _max_len(0, col)
+    pad = __max_len(0, col)
     for coli in cols
-        pad = _max_len(pad, coli)
+        pad = __max_len(pad, coli)
     end
     return pad
 end
