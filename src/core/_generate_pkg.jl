@@ -3,7 +3,7 @@ _default_user() = LibGit2.getconfig("user.name", "")
 
 _default_plugins() = [
     # allowed
-    PkgTemplates.Git(ignore = [_load_gitignore()], manifest = true, branch = "main"),
+    PkgTemplates.Git(ignore = [_load_gitignore()], manifest = false, branch = "main"),
     PkgTemplates.ProjectFile(), 
     PkgTemplates.SrcDir(),
     PkgTemplates.Tests(), 
@@ -18,20 +18,30 @@ _default_plugins() = [
 ]
 
 function _generate(pkgname; 
-        user = _default_user(), julia = v"1.6.0"
+        user = _default_user(), julia = v"1.10.0"
     )
 
+    pkgname = replace(pkgname, ".jl" => "")
+
     dir = Pkg.devdir()
-    _pkgdir = joinpath(dir, replace(pkgname, ".jl" => ""))
+    _pkgdir = joinpath(dir, pkgname)
 
     plugins = _default_plugins()
     t = PkgTemplates.Template(;user, julia, plugins, dir)
     PkgTemplates.generate(t, pkgname)
 
     # copy tagged-release.yml
+    # TODO: make it work again
+    # _cp(
+    #     joinpath(pkgdir(JLAssistant), ".github/workflows/tagged-release.yml"),
+    #     joinpath(_pkgdir, ".github/workflows/tagged-release.yml");
+    #     force = true
+    # )
+
+    # ci
     _cp(
-        joinpath(pkgdir(JLAssistant), ".github/workflows/tagged-release.yml"),
-        joinpath(_pkgdir, ".github/workflows/tagged-release.yml");
+        joinpath(pkgdir(JLAssistant), ".github/workflows/CI.yml"),
+        joinpath(_pkgdir, ".github/workflows/CI.yml");
         force = true
     )
     
